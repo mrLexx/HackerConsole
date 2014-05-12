@@ -2,10 +2,14 @@
     "name": "mrLexx/HackerConsole",
     "description": "fork of dklab/HackerConsole",
     "minimum-stability": "dev",
-    "license": "proprietary",
+    "license": "GNU",
     "authors": [
         {
             "name": "mrLexx"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-0": {"HackerConsole": "/"}
+    }
+
 }

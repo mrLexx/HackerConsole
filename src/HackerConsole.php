@@ -13,7 +13,7 @@
  *
  * @version 1.x $Id: Main.php 168 2007-01-30 21:12:03Z dk $
  */
-class Debug_HackerConsole_Main
+class HackerConsole
 {
     private static $_instance;
 
@@ -133,7 +133,7 @@ class Debug_HackerConsole_Main
         if (is_scalar($msg)) {
             $text = "$msg\n";
         } else {
-            $text = Debug_HackerConsole_Main::print_r($msg, true);
+            $text = HackerConsole::print_r($msg, true);
         }
 
         $this->_hc_entries[$group][] = array(
@@ -156,7 +156,7 @@ class Debug_HackerConsole_Main
     public function toPre($text, $tabSize = null)
     {
         $text = htmlspecialchars($text);
-        $text = Debug_HackerConsole_Main::expandTabs($text, ($tabSize === null ? $this->tabSize : $tabSize));
+        $text = HackerConsole::expandTabs($text, ($tabSize === null ? $this->tabSize : $tabSize));
         $text = str_replace(' ', '&nbsp;', $text);
         $text = nl2br($text);
 
@@ -193,7 +193,7 @@ class Debug_HackerConsole_Main
                     if ($k === "GLOBALS") {
                         continue;
                     }
-                    $buf .= "\n{$leftSp}[$k] => " . Debug_HackerConsole_Main::print_r($v, $no_print, $level + 1);
+                    $buf .= "\n{$leftSp}[$k] => " . HackerConsole::print_r($v, $no_print, $level + 1);
                 }
             }
         } else {
@@ -222,7 +222,7 @@ class Debug_HackerConsole_Main
             $old = $text;
             $text = preg_replace_callback(
                 '/^([^\t\r\n]*)\t(\t*)/m',
-                array('Debug_HackerConsole_Main', 'expandTabs_callback'),
+                array('HackerConsole', 'expandTabs_callback'),
                 $text
             );
             if ($old === $text) {
