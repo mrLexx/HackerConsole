@@ -21,8 +21,6 @@ class Debug_HackerConsole_Main
     private $_hc_entries = array();
     private $tabSize = 4;
 
-    private $disabled = false;
-
     public static function getInstance($autoAttach = false)
     {
         if (!(self::$_instance instanceof self)) {
@@ -32,14 +30,10 @@ class Debug_HackerConsole_Main
         return self::$_instance;
     }
 
-
     /**
-     * Create new console. If $autoAttach, output buffering
-     * handler is set to automatically attach JavaScript showing code to
-     * HTML page.
+     * Create new console. If $autoAttach, output buffering handler is set to automatically attach JavaScript showing code to HTML page.
      * @param bool $autoAttach
      */
-    //public function __construct($autoAttach = false)
     final private function __construct($autoAttach = false)
     {
         if ($autoAttach) {
@@ -150,15 +144,6 @@ class Debug_HackerConsole_Main
             'color' => $color,
             'tip' => $tip,
         );
-    }
-
-    /**
-     * Disable displaying of the console.
-     * @deprecated
-     */
-    private function disable()
-    {
-        $this->disabled = true;
     }
 
     /**
