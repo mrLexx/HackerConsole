@@ -1,0 +1,11 @@
+{
+    "name": "mrLexx/HackerConsole",
+    "description": "fork of dklab/HackerConsole",
+    "minimum-stability": "dev",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "mrLexx",
+        }
+    ]
+}
