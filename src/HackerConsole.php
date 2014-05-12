@@ -21,6 +21,10 @@ class HackerConsole
     private $_hc_entries = array();
     private $tabSize = 4;
 
+    /**
+     * @param bool $autoAttach
+     * @return HackerConsole
+     */
     public static function getInstance($autoAttach = false)
     {
         if (!(self::$_instance instanceof self)) {
