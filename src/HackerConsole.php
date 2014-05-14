@@ -1,4 +1,4 @@
-<?php
+<?php namespace mrLexx;
 
 /**
  * Debug_HackerConsole_Main: write debug messages into hidden console.
