@@ -18,7 +18,7 @@ class HackerConsole
     private static $_instance;
 
     private $_hc_height = "400"; // height of the console (pixels)
-    private $_hc_entries = array();
+    private $_hc_entries = [];
     private $tabSize = 4;
 
     /**
@@ -41,7 +41,7 @@ class HackerConsole
     final private function __construct($autoAttach = false)
     {
         if ($autoAttach) {
-            ob_start(array(&$this, '_obHandler'));
+            ob_start([&$this, '_obHandler']);
         }
     }
 
@@ -58,9 +58,6 @@ class HackerConsole
     public function attachToHtml($page)
     {
         $js = implode("", file(dirname(__FILE__) . '/Js.js'));
-        if (get_magic_quotes_runtime()) {
-            $js = stripslashes($js);
-        }
         $js = str_replace('{HEIGHT}', $this->_hc_height, $js);
         // We MUST use "hackerConsole" instead of "console" because of Safari.
         $code = "window.hackerConsole = window.hackerConsole || window.Debug_HackerConsole_Js && new window.Debug_HackerConsole_Js();\n";
@@ -92,7 +89,7 @@ class HackerConsole
         // Dirty close opened tags. This is bad, but better than nothing...
         $lower = strtolower($page);
         if (strpos($lower, '</body>') === false) {
-            foreach (array('script', 'xmp', 'pre') as $tag) {
+            foreach (['script', 'xmp', 'pre'] as $tag) {
                 if (substr_count($lower, "<$tag") > substr_count($lower, "</$tag")) {
                     $html .= "</$tag>";
                 }
@@ -124,11 +121,11 @@ class HackerConsole
     {
 
         // Detect caller if needed. Used in tip.
-        $s = array();
+        $s = [];
         if ($tip === null) {
             // Find caller. Use call_user_func to get context of out() calling.
             $s = call_user_func(
-                array(&$this, 'debug_backtrace_smart'),
+                [&$this, 'debug_backtrace_smart'],
                 'call_user_func.*', // ignore indirect contexts
                 true
             );
@@ -140,14 +137,14 @@ class HackerConsole
             $text = HackerConsole::print_r($msg, true);
         }
 
-        $this->_hc_entries[$group][] = array(
+        $this->_hc_entries[$group][] = [
             'file' => isset($s['file']) ? $s['file'] : null,
             'line' => isset($s['line']) ? $s['line'] : null,
             'function' => isset($s['function']) ? $s['function'] : null,
             'text' => $text,
             'color' => $color,
             'tip' => $tip,
-        );
+        ];
     }
 
     /**
@@ -193,11 +190,13 @@ class HackerConsole
             $buf = $type;
             if (is_array($obj) || is_object($obj)) {
                 $leftSp = str_repeat("    ", $level + 1);
-                for (reset($obj); list($k, $v) = each($obj);) {
+                reset($obj);
+                foreach ($obj as $k => $v) {
                     if ($k === "GLOBALS") {
                         continue;
                     }
                     $buf .= "\n{$leftSp}[$k] => " . HackerConsole::print_r($v, $no_print, $level + 1);
+
                 }
             }
         } else {
@@ -226,7 +225,7 @@ class HackerConsole
             $old = $text;
             $text = preg_replace_callback(
                 '/^([^\t\r\n]*)\t(\t*)/m',
-                array('HackerConsole', 'expandTabs_callback'),
+                ['HackerConsole', 'expandTabs_callback'],
                 $text
             );
             if ($old === $text) {
@@ -268,7 +267,7 @@ class HackerConsole
     private function _toJs($a)
     {
         $a = addslashes($a);
-        $a = str_replace(array("\n", "\r", ">", "<"), array('\n', '\r', "'+'>", "<'+'"), $a);
+        $a = str_replace(["\n", "\r", ">", "<"], ['\n', '\r', "'+'>", "<'+'"], $a);
 
         return "'$a'";
     }
@@ -286,14 +285,14 @@ class HackerConsole
     private function debug_backtrace_smart($ignoresRe = null, $returnCaller = false)
     {
         if (!is_callable($tracer = 'debug_backtrace')) {
-            return array();
+            return [];
         }
         $trace = $tracer();
 
         if ($ignoresRe !== null) {
             $ignoresRe = "/^(?>{$ignoresRe})$/six";
         }
-        $smart = array();
+        $smart = [];
         $framesSeen = 0;
         for ($i = 0, $n = count($trace); $i < $n; $i++) {
             $t = $trace[$i];

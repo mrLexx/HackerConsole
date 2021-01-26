@@ -137,7 +137,7 @@ Debug_HackerConsole_Js.prototype = {
 		}
 	}},
 
-	// Функция установки значения cookie.
+	// Р¤СѓРЅРєС†РёСЏ СѓСЃС‚Р°РЅРѕРІРєРё Р·РЅР°С‡РµРЅРёСЏ cookie.
 	setCookie: function(name, value, path, expires, domain, secure) {
 	  var curCookie = name + "=" + escape(value) +
 	    ((expires) ? "; expires=" + expires.toGMTString() : "") +
@@ -147,7 +147,7 @@ Debug_HackerConsole_Js.prototype = {
 	  document.cookie = curCookie;
 	},
 	
-	// Функция чтения значения cookie.
+	// Р¤СѓРЅРєС†РёСЏ С‡С‚РµРЅРёСЏ Р·РЅР°С‡РµРЅРёСЏ cookie.
 	getCookie: function(name) {
 	  var prefix = name + "=";
 	  var cookieStartIndex = document.cookie.indexOf(prefix);
