@@ -38,14 +38,14 @@ class HackerConsole
      * Create new console. If $autoAttach, output buffering handler is set to automatically attach JavaScript showing code to HTML page.
      * @param bool $autoAttach
      */
-    final private function __construct($autoAttach = false)
+    private function __construct($autoAttach = false)
     {
         if ($autoAttach) {
             ob_start([&$this, '_obHandler']);
         }
     }
 
-    final private function __clone()
+    private function __clone()
     {
 
     }
