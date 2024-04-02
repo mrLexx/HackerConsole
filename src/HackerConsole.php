@@ -13,6 +13,9 @@
  *
  * @version 1.x $Id: Main.php 168 2007-01-30 21:12:03Z dk $
  */
+
+namespace mrLexx;
+
 class HackerConsole
 {
     private static $_instance;
@@ -57,7 +60,7 @@ class HackerConsole
      */
     public function attachToHtml($page)
     {
-        $js = implode("", file(dirname(__FILE__) . '/Js.js'));
+        $js = implode("", file(__DIR__ . '/../resources/Js.js'));
         $js = str_replace('{HEIGHT}', $this->_hc_height, $js);
         // We MUST use "hackerConsole" instead of "console" because of Safari.
         $code = "window.hackerConsole = window.hackerConsole || window.Debug_HackerConsole_Js && new window.Debug_HackerConsole_Js();\n";
@@ -71,7 +74,7 @@ class HackerConsole
                         $dr = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
                         $file = preg_replace('{^' . preg_quote($dr, '{}') . '}is', '~', $file);
                     }
-                    $title = "at {$file} line {$e['line']}" . (!empty($e['function']) ? ", {$e['function']}" : "");
+                    $title = "at $file line {$e['line']}" . (!empty($e['function']) ? ", {$e['function']}" : "");
                 } else {
                     $title = $e['tip'];
                 }
@@ -99,7 +102,7 @@ class HackerConsole
         $html .= "<!-- ##################### -->\n";
         $html .= "<!-- ### HackerConsole ### -->\n";
         $html .= "<!-- ##################### -->\n";
-        $html .= "<script type=\"text/javascript\" language=\"JavaScript\">//<![CDATA[\n" . $js . "\n" . $code . "\n//]]></script>\n";
+        $html .= "<script type=\"text/javascript\">//<![CDATA[\n" . $js . "\n" . $code . "\n//]]></script>\n";
         $page = preg_replace('{(?=</body[^>]*>|$)}si', preg_replace('/([\\\\$])/', '\\\\$1', $html), $page, 1);
 
         return $page;
@@ -159,9 +162,8 @@ class HackerConsole
         $text = htmlspecialchars($text);
         $text = HackerConsole::expandTabs($text, ($tabSize === null ? $this->tabSize : $tabSize));
         $text = str_replace(' ', '&nbsp;', $text);
-        $text = nl2br($text);
 
-        return $text;
+        return nl2br($text);
     }
 
 
@@ -171,7 +173,7 @@ class HackerConsole
      * @param $obj
      * @param int $no_print
      * @param int $level
-     * @return mixed|null|string
+     * @return array|string|string[]|null
      */
     public function print_r($obj, $no_print = 0, $level = 0)
     {
@@ -232,8 +234,6 @@ class HackerConsole
                 return $text;
             }
         }
-
-        return $text;
     }
 
     /**
